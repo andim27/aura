@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <img src="./assets/aura-full.png"> -->
+    <!-- <HelloWorld msg="Welcome to Auragramma"/> -->
+    <h2>Auragramma!</h2>
+    <Auragramma msg="Welcome to Auragramma"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Auragramma from './components/Auragramma.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    //HelloWorld,
+    Auragramma
   }
 }
 </script>

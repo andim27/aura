@@ -7,10 +7,11 @@
       </div> -->
       <!-- <img class="aura-sector" v-bind:src="getSrc('aura-0-25.png')"> -->
       <div v-show="aura_full">
-        <img src="/static/images/aura-full.png" >
+        <!-- <img src="/static/images/aura-full.png" > -->
       </div>
       <div v-show="aura_sectors">
-        <img class="aura-sectors-img" src="/static/images/aura-sectors.png" >
+        <!-- <img class="aura-sectors-img" src="/static/images/aura-sectors.png" > -->
+        <img class="aura-sectors-img" src="/static/images/aura-full.png" >
       </div>
     </div>
   </div>
@@ -21,7 +22,7 @@
     <center>
       <div class="row chanelDetails">
         
-        <h2>Point description</h2>
+        <h2>Сектор</h2>
         <h3>{{active_point.id}}:{{active_point.title}}</h3>
         <p  v-if="active_point"  v-for="line in active_point.desc" :key="line">
           <span>L1:{{line}}</span>      
@@ -29,12 +30,13 @@
         
     </div>
   </center>
+    <!-- <AuraInteractive  grade=0 background_img_name="aura-sectors.png" /> -->
     <AuraInteractive  grade=0 background_img_name="aura-sectors.png" />
   </div>
   <div class=row>
-    <ul v-for="(item,index) in point_items" :key="index">
+    <!-- <ul v-for="(item,index) in point_items" :key="index">
       <label>{{index}}.</label><li>{{item.title}}</li>
-    </ul>
+    </ul> -->
   </div>
  
 </section>
@@ -266,5 +268,6 @@ a {
   border: solid 2px;
   border-color: darkgrey;
   width:25%;
+  float: right;
 }
 </style>

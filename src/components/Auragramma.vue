@@ -41,9 +41,10 @@
                         <div class="col-md-5">
                             <!-- <AuraInteractive  grade=0 background_img_name="aura-sectors.png" /> -->
                             <!-- <h2>Аураграмма интерактивная</h2>
-                            <div id="aura-interactive" />
+                           
                             <AuraInteractive  grade=0 background_img_name="aura-full.png" /> -->
-                            <!-- <AuraInteractive k_width=300 k_height=364 grade=0 background_img_name="aura-full.png" /> -->
+                            <div id="aura-interactive-1" ></div>
+                            <AuraInteractive  grade=0 background_img_name="aura-full.png" />
                         </div>
                         <!-- chanel block -->
                           <div class="col-md-2">
@@ -71,18 +72,32 @@
                           </div>
                         <!-- details block -->
                           <div class="col-md-5">
-                              <div class="row chanelDetails">                                
-                                <h2>Сектор</h2>
-                                <h3>{{active_point.id}}:{{active_point.title}}</h3>
-                                <p  v-if="active_point"  v-for="line in active_point.desc" :key="line">
-                                  <span>L1:{{line}}</span>      
-                                </p>                                
+                              <div class="row chanelDetails"> 
+                                <div class="col">
+                                  <div class="auraDetailVideo">
+                                    <video src="http://express-test.ooo.ua/uploads/spine/1/EljCoY6MwspOxuHE.webm" autoplay="" loop=""></video>
+                                  </div>
+                                </div>
+                                <div class="col">
+                                  <div class="auraDetailDesc">
+                                      <h3>Сектор</h3>
+                                      <h3>{{active_point.id}}:{{active_point.title}}</h3>
+                                      <p  v-if="active_point"  v-for="line in active_point.desc" :key="line">
+                                      <span>L1:{{line}}</span>      
+                                      </p>
+                                  </div>
+                                </div>                              
+                                                                
                             </div>
                           </div>
                       </div>
                     </div>
                     <!-- right aura block -->
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                       <div id="aura-interactive-2" ></div>
+                       <!-- <AuraInteractive  aura_id='2' k_width=300 k_height=364 grade=0 background_img_name="aura-full.png" /> -->
+                        <AuraInteractive v-if="isSeanceCompare" grade=0 background_img_name="aura-full.png" />
+                    </div>
                   </div>
                 </div>
             
@@ -139,6 +154,7 @@
       <!-- <h2>Аураграмма интерактивная</h2>
       <div id="aura-interactive" />
       <AuraInteractive k_width=300 k_height=364 grade=0 background_img_name="aura-full.png" /> -->
+       <!-- <AuraInteractive  grade=0 background_img_name="aura-full.png" /> -->
   </div>
  
 </section>
@@ -147,9 +163,9 @@
 
 <script>
 // import Vue from "vue";
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import AuraInteractive from '../components/AuraInteractive.vue'
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import AuraInteractive from "../components/AuraInteractive.vue";
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
@@ -160,22 +176,21 @@ export default {
   components: {
     AuraInteractive
   },
-  beforeCreate() {
-   
-  },
+  beforeCreate() {},
   beforeMount() {
-    this.point_items = this.getPointItems(); 
+    this.point_items = this.getPointItems();
   },
-  mounted() {
-    
-  },
+  mounted() {},
   created() {
-    this.$on('auraSectorClicked',function(data){        
-        this.active_point_id=data.id;
-        this.active_point=this.getActivePointItem(this.active_point_id);
-        console.log("ON this.active_point="+data.id,JSON.stringify(this.active_point))
-        //alert('data.id='+data.id+' desc='+JSON.stringify(this.active_point.desc))
-    })
+    this.$on("auraSectorClicked", function(data) {
+      this.active_point_id = data.id;
+      this.active_point = this.getActivePointItem(this.active_point_id);
+      console.log(
+        "ON this.active_point=" + data.id,
+        JSON.stringify(this.active_point)
+      );
+      //alert('data.id='+data.id+' desc='+JSON.stringify(this.active_point.desc))
+    });
   },
   data() {
     return {
@@ -183,27 +198,34 @@ export default {
       aura_sectors: false,
       point_items: [],
       active_point_id: 1,
-      active_point:{},
-      signalColors:[
-        'blue','aqua','purple','turquoise','green','yellow','orange','red'
+      active_point: {},
+      signalColors: [
+        "blue",
+        "aqua",
+        "purple",
+        "turquoise",
+        "green",
+        "yellow",
+        "orange",
+        "red"
       ], //--clRed, clWebOrange, clWebGold, clGreen, clWebDodgerBlue, clBlue: 100 ->0
-      seance_1_items:[
-        {id:0,title:'Выберите сеанс тестирования',value:0},
-        {id:1,title:'02.02.2018 - 10:00',value:100},
-        {id:2,title:'03.02.2018 - 11:00',value:80},
-        {id:3,title:'04.02.2018 - 12:00',value:70},
-        {id:4,title:'05.02.2018 - 13:00',value:10}
+      seance_1_items: [
+        { id: 0, title: "Выберите сеанс тестирования", value: 0 },
+        { id: 1, title: "02.02.2018 - 10:00", value: 100 },
+        { id: 2, title: "03.02.2018 - 11:00", value: 80 },
+        { id: 3, title: "04.02.2018 - 12:00", value: 70 },
+        { id: 4, title: "05.02.2018 - 13:00", value: 10 }
       ],
-      seance_2_items:[
-        {id:0,title:'Выберите сеанс тестирования',value:0},
-        {id:1,title:'02.02.2018 - 10:00',value:100},
-        {id:2,title:'03.02.2018 - 11:00',value:80},
-        {id:3,title:'04.02.2018 - 12:00',value:70},
-        {id:4,title:'05.02.2018 - 13:00',value:10}
+      seance_2_items: [
+        { id: 0, title: "Выберите сеанс тестирования", value: 0 },
+        { id: 1, title: "02.02.2018 - 10:00", value: 100 },
+        { id: 2, title: "03.02.2018 - 11:00", value: 80 },
+        { id: 3, title: "04.02.2018 - 12:00", value: 70 },
+        { id: 4, title: "05.02.2018 - 13:00", value: 10 }
       ],
-      seance_1_selected:0,
-      seance_2_selected:0,
-      isSeanceCompare:false
+      seance_1_selected: 0,
+      seance_2_selected: 0,
+      isSeanceCompare: false
     };
   },
   methods: {
@@ -218,7 +240,7 @@ export default {
             "Головокружение",
             "Нарушение функций органов чувств"
           ],
-          color_index:1,
+          color_index: 1,
           grade: 0,
           video_url: ""
         },
@@ -232,7 +254,7 @@ export default {
             "Нарушение функций эндокринных органов",
             "Гипертензия"
           ],
-          color_index:2,
+          color_index: 2,
           grade: 0,
           video_url: ""
         },
@@ -246,7 +268,7 @@ export default {
             "снижение слуха, шум в ушах",
             "повышенная чувствительность к звукам, нарушение координаций движений"
           ],
-          color_index:2,
+          color_index: 2,
           grade: 0,
           video_url: ""
         },
@@ -259,7 +281,7 @@ export default {
             "Заложенность носа и изменение голоса, слезотечение",
             "Боли в области придаточных пазух, острого или ноющего характера"
           ],
-          color_index:4,
+          color_index: 4,
           grade: 0,
           video_url: ""
         },
@@ -272,7 +294,7 @@ export default {
             "Першение в горле",
             "Частые простудные заболевания"
           ],
-          color_index:5,
+          color_index: 5,
           grade: 0,
           video_url: ""
         },
@@ -285,7 +307,7 @@ export default {
             "Сопровождает любой воспалительный процесс",
             "Характеризует степень интоксикации организма"
           ],
-          color_index:5,
+          color_index: 5,
           grade: 0,
           video_url: ""
         },
@@ -298,7 +320,7 @@ export default {
             "Изжога",
             "Боли за грудиной"
           ],
-          color_index:1,
+          color_index: 1,
           grade: 0,
           video_url: ""
         },
@@ -311,7 +333,7 @@ export default {
             "Сопровождает любой воспалительный процесс в грудной клетке",
             "Характеризует степень интоксикации организма"
           ],
-          color_index:2,
+          color_index: 2,
           grade: 0,
           video_url: ""
         },
@@ -329,7 +351,7 @@ export default {
             "исхудание",
             "повышение артериального давления и частоты сердечного сокращения, экзофтальм"
           ],
-          color_index:1,
+          color_index: 1,
           grade: 0,
           video_url: ""
         }
@@ -338,18 +360,18 @@ export default {
     },
     changeSeance(index) {
       if (index == 1) {
-        console.info(this.seance_1_selected)
+        console.info(this.seance_1_selected);
       }
       if (index == 2) {
-        console.info(this.seance_2_selected)
+        console.info(this.seance_2_selected);
       }
     },
     getSignalColor(index) {
-      let ind = this.point_items[index].color_index
-      let color_name = this.signalColors[ind]
+      let ind = this.point_items[index].color_index;
+      let color_name = this.signalColors[ind];
       return {
-        color:color_name//'red'//Vue.getRandom(0,7)
-      }
+        color: color_name //'red'//Vue.getRandom(0,7)
+      };
     },
     clickAuraSector(id) {
       alert("aura sector " + id);
@@ -362,13 +384,13 @@ export default {
       return name;
     },
     getActivePointItem(id) {
-      let elm=false;
+      let elm = false;
       this.point_items.forEach(element => {
         //console.log("getActivePoint element.id="+element.id+" ID="+id)
         if (element.id == id) {
           //this.active_point_item = element;
           console.info("FOUNDED!");
-          elm=element;          
+          elm = element;
           return element;
         }
       });
@@ -418,49 +440,59 @@ a {
   top: 0px;
   left: 0px;
 }
+.auraDetailVideo {
+  border: 1px solid #a6becc;
+  margin: 5px;
+  line-height: 0px;
+}
+.auraDetailDesc {
+  border: 1px solid #a6becc;
+  padding: 5px;
+}
 .chanelDetails {
-  border: solid 2px;
+  /* border: solid 2px; */
   border-color: darkgrey;
-  width:25%;
-  float: right;
+  width: 100%;
+  padding: 5px;
+  text-align: center;
 }
 .content {
-    min-height: 250px;
-    padding: 15px;
-        padding-right: 15px;
-        padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+  min-height: 250px;
+  padding: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .box.box-primary {
-    border-top-color: #3c8dbc;
+  border-top-color: #3c8dbc;
 }
 .box {
-    position: relative;
-    border-radius: 3px;
-    background: #ffffff;
-    border-top: 3px solid #d2d6de;
-        border-top-color: rgb(210, 214, 222);
-    margin-bottom: 20px;
-    width: 100%;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  position: relative;
+  border-radius: 3px;
+  background: #ffffff;
+  border-top: 3px solid #d2d6de;
+  border-top-color: rgb(210, 214, 222);
+  margin-bottom: 20px;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box-header {
-    color: #444;
-    display: block;
-    padding: 10px;
-    position: relative;
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
 }
 .box-header.with-border {
-    border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f4f4f4;
 }
 .box-body {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    padding: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 10px;
 }
 </style>

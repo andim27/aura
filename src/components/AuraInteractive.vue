@@ -24,7 +24,7 @@
           x: point.x,
           y: point.y,
           fontFamily: 'Calibri',
-          fontSize: 24,
+          fontSize: 14,
           text: ''+point.title,
           fill: 'black'
           }"         
@@ -47,11 +47,24 @@ Vue.use(VueKonva);
 export default {
   name: "AuraInteractive",
   props: {
-    grade: 0,
-    background_img_name: ""
+    'aura_id':1,
+    'grade': 0,
+    'background_img_name': "",
+    'k_width':300,
+    'k_height':400
+  },
+  beforeCreate() {
+    
+
   },
   beforeMount() {
-    this.aura_label_points = this.calcLabelPoints();
+    this.aura_label_points  = this.calcLabelPoints();
+    // this.configKonva.container  = this.configKonva.container+'-'+this.$props.aura_id;
+    // this.configKonva.width  = this.$props.k_width;
+    // this.configKonva.height = this.$props.k_height;
+    // this.aura_back_width = this.configKonva.width;
+    // this.aura_back_height = this.configKonva.height;
+    console.log('AuraInteractive props=',this.$props);
   },
   mounted() {
     //const vm = this;
@@ -70,8 +83,8 @@ export default {
       radius: 200,
       center_x: 300,
       center_y: 300,
-      aura_back_width: 600,
-      aura_back_heigth:762,
+      aura_back_width: 300,//this.$props.k_width,//600,
+      aura_back_height:382,//this.$props.k_height,//762,
       backImg: {},
       sectorsImg: [], // config_sector_img,config_sector_img,...
       isBackGroundAura: true,
@@ -79,8 +92,8 @@ export default {
       isLabelPoints: true,
       configKonva: {
         //container: 'aura-interactive',   // id of container <div>
-        width: 600,
-        height:784
+        width: 300,//this.$props.k_width,//600,
+        height:382+10,//this.$props.k_height,//784
       },
       configBackGround: {},
  
@@ -115,7 +128,7 @@ export default {
     calcLabelPoints() {
       //console.log(this.aura_back_width,this.aura_back_height)
       let Rw=parseInt(this.aura_back_width/2);
-      let Rh=parseInt(this.aura_back_heigth/2);
+      let Rh=parseInt(this.aura_back_height/2);
       let k=0.90;//--koef squize
       //let dAngle=this.aura_angl_dev;
       let xCenter=Rw*0.95;
@@ -157,7 +170,7 @@ export default {
       return {
         text: "label-" + index,
         fontFamily: "Calibri",
-        fontSize: 18,
+        fontSize: 8,
         padding: 5,
         fill: "black"
       };
@@ -171,7 +184,7 @@ export default {
         y: 0,
         image: this.backImg,
         width: this.aura_back_width,
-        height: this.aura_back_heigth
+        height: this.aura_back_height
       };
     },
     calcConfigAuraSector(grade, index) {
@@ -184,7 +197,7 @@ export default {
         y: 0,
         image: this.sectorsImg[index],
         width: this.aura_back_width,
-        height: this.aura_back_heigth
+        height: this.aura_back_height
         //rotation:90,
       };
     },
@@ -197,7 +210,7 @@ export default {
       }
       return {
         x: this.aura_back_width / 2,
-        y: this.aura_back_heigth / 2,
+        y: this.aura_back_height / 2,
         radius: radius,
         angle: this.aura_angl_dev,
         fill: "", //(index==0)?'red':'blue',
@@ -209,7 +222,7 @@ export default {
     fillSectorsImg() {
       this.sectorsImg = [];
       for (let i = 1; i <= this.aura_points_cnt; i++) {
-        let img = new Image(this.aura_back_width, this.aura_back_heigth);
+        let img = new Image(this.aura_back_width, this.aura_back_height);
         img.src =
           "/static/images/aura-" +
           this.$props.grade +
@@ -221,7 +234,7 @@ export default {
           x: 0,
           y: 0,
           width: this.aura_back_width,
-          heigth: this.aura_back_heigth
+          heigth: this.aura_back_height
         };
         this.sectorsImg.push(config_sector_img);
       }

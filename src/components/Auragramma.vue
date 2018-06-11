@@ -1,5 +1,112 @@
 <template>
 <section class="content">
+
+  <h3>Аураграмма</h3>
+  <div class="row">
+    <div class="col-md-12">
+      <div class=box box-primary>
+            <div class="box-header with-border">
+              <div class="row">
+                <!-- seance left -->
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    <div class="col-md-8">
+                      <select v-model="seance_1_items">
+                        <option >'01.01.2018 - 23:45'<option>
+                        <option >'02.01.2018 - 22:05'<option>
+                        <option >'03.01.2018 - 21:15'<option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <input type="checkbox" v-model="isSeanceCompare">Режим сравнения</input>
+                    </div>
+                  </div>
+                </div>
+                <!-- seance right -->
+                <div class="col-md-6">
+                    <select v-model="seance_2_items">
+                        <option >'01.01.2018 - 23:45'<option>
+                        <option >'02.01.2018 - 22:05'<option>
+                        <option >'03.01.2018 - 21:15'<option>
+                      </select>
+                </div>
+              </div>
+            </div>
+            <div class="box-body">
+                  <div class="row>">
+                    <!-- left aura block -->
+                    <div class="col-md-6">
+                      <div class="row">
+                        <!-- aura draw -->
+                        <div class="col-md-5">
+                            <!-- <AuraInteractive  grade=0 background_img_name="aura-sectors.png" /> -->
+                            <AuraInteractive  grade=0 background_img_name="aura-full.png" />
+                        </div>
+                        <!-- chanel block -->
+                          <div class="col-md-2">
+                             <div class="row">
+                               <div class="col">
+                                 <!-- first stolbik -->
+                                 <ul>
+                                   <li v-for="(item,index) in point_items" :key="index">
+                                      <span v-if="index < 24">
+                                        <span v-bind:style="getSignalColor(index)">{{item.id}}=N </span>
+                                      </span>
+                                   </li>
+                                 </ul>
+                               </div>
+                               <div class="col">
+                                 <!-- second stolbik -->
+                                  <ul>
+                                   <li v-for="(item,index) in point_items" :key="index">
+                                      <span v-if="index > 24">
+                                        <span v-bind:style="getSignalColor(index)">{{item.id}}=N </span>
+                                      </span>
+                                   </li>
+                                 </ul>
+                               </div>
+                             </div>
+                          </div>
+                        <!-- details block -->
+                          <div class="col-md-5">
+                              <div class="row chanelDetails">                                
+                                <h2>Сектор</h2>
+                                <h3>{{active_point.id}}:{{active_point.title}}</h3>
+                                <p  v-if="active_point"  v-for="line in active_point.desc" :key="line">
+                                  <span>L1:{{line}}</span>      
+                                </p>                                
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <!-- right aura block -->
+                    <div class="col-md-6"></div>
+                  </div>
+                </div>
+            
+
+      </div>
+    </div>
+  </div>
+  <!-- organ description -->
+  <div class="row">
+     <div class="col-md-4">
+       <ul>
+         <li v-for="(item,index) in point_items" :key="index">
+          <span v-if="index < 23"> <span>{{point.id}}.</span> <span>{{point.title}}</span></span>
+         </li>
+       </ul>
+     </div>
+     <div class="col-md-4">
+        <ul>
+         <li v-for="(item,index) in point_items" :key="index">
+          <span v-if="index > 23"> <span>{{point.id}}.</span> <span>{{point.title}}</span></span>
+         </li>
+       </ul>
+     </div>
+     <div class="col-md-4"></div>
+  </div>
+
   <div class="row">
     <div class="aura-sectors">
       <!-- <div v-for="(item,index) in point_items" :key="index">
@@ -20,18 +127,9 @@
     <h2>Аурограмма интерактивная</h2>
     <div id="aura-interactive" />
     <center>
-      <div class="row chanelDetails">
-        
-        <h2>Сектор</h2>
-        <h3>{{active_point.id}}:{{active_point.title}}</h3>
-        <p  v-if="active_point"  v-for="line in active_point.desc" :key="line">
-          <span>L1:{{line}}</span>      
-        </p>
-        
-    </div>
+
   </center>
-    <!-- <AuraInteractive  grade=0 background_img_name="aura-sectors.png" /> -->
-    <AuraInteractive  grade=0 background_img_name="aura-sectors.png" />
+   
   </div>
   <div class=row>
     <!-- <ul v-for="(item,index) in point_items" :key="index">
@@ -44,7 +142,8 @@
 </template>
 
 <script>
-
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import AuraInteractive from '../components/AuraInteractive.vue'
 // import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -73,7 +172,23 @@ export default {
       aura_sectors: false,
       point_items: [],
       active_point_id: 1,
-      active_point:{}
+      active_point:{},
+      signalColors:[
+        'blue','aqua','purple','turquoise','green','yellow','orange','red'
+      ], //--clRed, clWebOrange, clWebGold, clGreen, clWebDodgerBlue, clBlue: 100 ->0
+      seance_1_items:[
+        {id:1,title:'02.02.2018 - 10:00',value:100},
+        {id:2,title:'03.02.2018 - 11:00',value:80},
+        {id:3,title:'04.02.2018 - 12:00',value:70},
+        {id:4,title:'05.02.2018 - 13:00',value:10}
+      ],
+      seance_2_items:[
+        {id:1,title:'02.02.2018 - 10:00',value:100},
+        {id:2,title:'03.02.2018 - 11:00',value:80},
+        {id:3,title:'04.02.2018 - 12:00',value:70},
+        {id:4,title:'05.02.2018 - 13:00',value:10}
+      ],
+      isSeanceCompare:false
     };
   },
   methods: {
@@ -197,6 +312,11 @@ export default {
       ];
       return items;
     },
+    getSignalColor(index) {
+      return {
+        color:Vue.getRandom(0,7)
+      }
+    },
     clickAuraSector(id) {
       alert("aura sector " + id);
       this.active_point_id = id;
@@ -269,5 +389,44 @@ a {
   border-color: darkgrey;
   width:25%;
   float: right;
+}
+.content {
+    min-height: 250px;
+    padding: 15px;
+        padding-right: 15px;
+        padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.box.box-primary {
+    border-top-color: #3c8dbc;
+}
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+        border-top-color: rgb(210, 214, 222);
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.box-header {
+    color: #444;
+    display: block;
+    padding: 10px;
+    position: relative;
+}
+.box-header.with-border {
+    border-bottom: 1px solid #f4f4f4;
+}
+.box-body {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 10px;
 }
 </style>

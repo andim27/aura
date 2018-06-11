@@ -8,9 +8,7 @@
   <v-stage  ref="stage" :config="configKonva">
     <v-layer  v-if="isBackGroundAura"  ref='aura_layer'>
      <v-image :config="calcConfigBackGround()"></v-image>     
-      <!-- <v-shape ref="aura_2" :config="configAura_2"></v-shape> -->
-       <!-- <v-line ref="aura_2" :config="configAura_2"></v-line> -->
-       <!-- <v-shape :config="getConfigAura(Konva.context)"></v-shape> -->           
+         
     </v-layer>
    
      <v-layer   :ref="'aura_layer_sector_'+index"  v-for="index in aura_points_cnt" :key="index" >
@@ -19,22 +17,19 @@
       <v-layer v-if="isMathSectors" v-for="index in aura_points_cnt" :key="index">
        <v-wedge   :config="calcConfigWedge(0,index)" @click="auraWegeSectorClick(index)"></v-wedge>
      </v-layer>
-     <v-layer v-if="isLabelPoints" v-for="(point,index) in aura_label_points" :key="index">
+     <v-layer v-if="(isLabelPoints) && (aura_label_points.length>0)" v-for="(point,index) in aura_label_points" :key="point">
        <v-text :ref="'text-'+index" @click="auraSectorClick(point.title)" :config="{
           x: point.x,
           y: point.y,
           fontFamily: 'Calibri',
           fontSize: 24,
-          text: point.title,
+          text: ''+point.title,
           fill: 'black'
           }"         
-        >
-        </v-text>
+        />
+        
      </v-layer>
- 
-    <!-- <v-layer>    
-       <v-wedge :config="configW_2" @click="auraWegeSectorClick(1)"></v-wedge>
-     </v-layer> -->
+
   </v-stage>
 
 </center>
@@ -52,13 +47,15 @@ export default {
     grade: 0,
     background_img_name: ""
   },
+  beforeMount() {
+    this.aura_label_points = this.calcLabelPoints();
+  },
   mounted() {
     //const vm = this;
-    this.aura_label_points = this.calcLabelPoints();
+   
     this.stage = this.$refs.stage.getStage();
     this.fillSectorsImg(); //--grade=0
-    //  this.aura_points=this.calcAuraPoints()
-    //  this.configAura_2=this.getConfigAura(this.VueKonva.context)
+
   },
   data() {
     return {
@@ -74,33 +71,16 @@ export default {
       aura_back_heigth: 762,
       backImg: {},
       sectorsImg: [], // config_sector_img,config_sector_img,...
-      isBackGroundAura: false,
+      isBackGroundAura: true,
       isMathSectors: false,
       isLabelPoints: true,
       configKonva: {
         //container: 'aura-interactive',   // id of container <div>
         width: 600,
-        height: 764
+        height: 784
       },
       configBackGround: {},
-      configCircle_1: {
-        x: 200,
-        y: 200,
-        radius: 120,
-        fill: "#6600ff",
-        stroke: "black",
-        strokeWidth: 2
-      },
-      configW_2: {
-        x: 300,
-        y: 381,
-        radius: 240,
-        angle: 12,
-        fill: "blue",
-        stroke: "black",
-        strokeWidth: 0,
-        rotation: 12
-      }
+ 
     };
   },
   computed: {
@@ -140,18 +120,11 @@ export default {
       //let step=0;
       let k_alfa_left=23.7;
       let k_alfa_right=24;
-      var label_points = [
-      
-        // {
-        //   x: parseInt(this.aura_back_width / 2),
-        //   y: parseInt(this.aura_back_heigth / 2),
-        //   title: "x"
-        // },
-        // { x:  parseInt(this.aura_back_width / 2), y: 0, title: "1" },
-        // { x:  parseInt(this.aura_back_width / 2)+40, y: 15, title: "2" },
-        // { x: parseInt(this.aura_back_width / 2)+80, y: 30, title: "3" }
+      let label_points = [
+
       
       ];
+      
       // for (var i = 0 * Math.PI; i < 2 * Math.PI; i += dAngle ) {
       //var sign=1;
       for (let i = 24; i < 48; i++) {           
@@ -189,7 +162,7 @@ export default {
     calcConfigBackGround() {
       this.backImg = new Image();
       this.backImg.src = "/static/images/" + this.$props.background_img_name;
-      //console.log(this.backImg.src);
+      console.log("BACK GR="+this.backImg.src);
       return {
         x: 0,
         y: 0,
@@ -273,24 +246,10 @@ export default {
     getSignals() {
       //this.stage.draw();
       this.$forceUpdate();
-      console.log("VueKonva.Text=", VueKonva.Text);
+      //console.log("VueKonva.Text=", VueKonva.Text);
     },
     setFill() {
-      // let attr={
-      //           fillRadialGradientStartPoint: 0,
-      //           fillRadialGradientEndPoint: 0,
-      //           fillRadialGradientEndRadius: 70,
-      //           fillRadialGradientColorStops: [0.2, 'red', 0.5, 'yellow', 1, 'blue']
-      //       };
-      console.log(VueKonva);
-      //console.log("this.VueKonva=",this.$refs)
-      // this.VueKonva.$refs['aura_2'].filters([this.VueKonva.Filters.Blur]);
-      // this.$refs.aura_2.$options.fillRadialGradientStartPoint=0;//(attr);
-      // this.$refs.aura_2.$options.fillRadialGradientEndPoint=0;//(attr);
-      // this.$refs.aura_2.$options.fillRadialGradientStartRadius=0;//(attr);
-      // this.$refs.aura_2.$options.fillRadialGradientEndRadius=70;//(attr);
-      // this.$refs.aura_2.$options.fillRadialGradientColorStops=[0.1, 'red', 0.5, 'yellow', 1, 'blue'];//(attr);
-      // this.$refs.aura_layer.getStage().draw();
+
     }
   }
 };

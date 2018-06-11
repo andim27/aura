@@ -1,14 +1,16 @@
 <template>
 <section class="content">
+
 <center>
-  <button v-on:click="getSignals()">getSignals</button>
+  <!-- <button v-on:click="getSignals()">getSignals</button> -->
   <center>
   
   </center>
+  <!--b: aura-draw -->
+  <div id="aura-draw">
   <v-stage  ref="stage" :config="configKonva">
     <v-layer  v-if="isBackGroundAura"  ref='aura_layer'>
-     <v-image :config="calcConfigBackGround()"></v-image>     
-         
+     <v-image :config="calcConfigBackGround()"></v-image>             
     </v-layer>
    
      <v-layer   :ref="'aura_layer_sector_'+index"  v-for="index in aura_points_cnt" :key="index" >
@@ -31,7 +33,8 @@
      </v-layer>
 
   </v-stage>
-
+  </div> 
+  <!-- e:aura-draw -->
 </center>
 </section>
 </template>
@@ -68,7 +71,7 @@ export default {
       center_x: 300,
       center_y: 300,
       aura_back_width: 600,
-      aura_back_heigth: 762,
+      aura_back_heigth:762,
       backImg: {},
       sectorsImg: [], // config_sector_img,config_sector_img,...
       isBackGroundAura: true,
@@ -77,7 +80,7 @@ export default {
       configKonva: {
         //container: 'aura-interactive',   // id of container <div>
         width: 600,
-        height: 784
+        height:784
       },
       configBackGround: {},
  
@@ -255,4 +258,5 @@ export default {
 };
 </script>
 <style>
+
 </style>

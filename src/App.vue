@@ -1,8 +1,6 @@
 <template>
-  <div id="app">
+  <div id="aura-app">
     <!-- <img src="./assets/aura-full.png"> -->
-    <!-- <HelloWorld msg="Welcome to Auragramma"/> -->
-    <h2>Auragramma!</h2>
     <Auragramma msg="Welcome to Auragramma"/>
   </div>
 </template>
@@ -11,9 +9,8 @@
 import Auragramma from './components/Auragramma.vue'
 
 export default {
-  name: 'app',
+  name: 'aura-app',
   components: {
-    //HelloWorld,
     Auragramma
   }
 }

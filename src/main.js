@@ -10,7 +10,13 @@ Vue.use(VueKonva)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
-
+Vue.mixin(
+  {
+    getRandom(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+  }
+)
 new Vue({
   render: h => h(App)
 }).$mount('#app')

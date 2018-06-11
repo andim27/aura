@@ -1,33 +1,33 @@
 <template>
 <section class="content">
 
-  <h3>Аураграмма</h3>
+  <h3 class="text-left">Аураграмма</h3>
   <div class="row">
     <div class="col-md-12">
       <div class=box box-primary>
-            <div class="box-header with-border">
+            <div class="box-header ">
+                <!-- with-border -->
               <div class="row">
                 <!-- seance left -->
                 <div class="col-md-6">
                   <div class="form-group row">
                     <div class="col-md-8">
-                      <select v-model="seance_1_items">
-                        <option >'01.01.2018 - 23:45'<option>
-                        <option >'02.01.2018 - 22:05'<option>
-                        <option >'03.01.2018 - 21:15'<option>
+                      <select v-model="seance_1_selected" @change="changeSeance(1)">
+                        <option v-for="(item,index) in seance_1_items" v-bind:value="item.value" :key="index" v-bind:selected="item.value == 0" >{{item.title}}</option>
+                        <!-- <option >'02.01.2018 - 22:05'</option>
+                        <option >'03.01.2018 - 21:15'</option> -->
                       </select>
                     </div>
                     <div class="col-md-4">
-                      <input type="checkbox" v-model="isSeanceCompare">Режим сравнения</input>
+                      <label><input type="checkbox" v-model="isSeanceCompare" />Режим сравнения</label>
                     </div>
                   </div>
                 </div>
                 <!-- seance right -->
                 <div class="col-md-6">
-                    <select v-model="seance_2_items">
-                        <option >'01.01.2018 - 23:45'<option>
-                        <option >'02.01.2018 - 22:05'<option>
-                        <option >'03.01.2018 - 21:15'<option>
+                    <select v-show="isSeanceCompare"  v-model="seance_2_selected" @change="changeSeance(2)">
+                        <option v-for="(item,index) in seance_2_items" v-bind:value="item.value" :key="index" v-bind:selected="item.value == 0" >{{item.title}}</option>
+                            
                       </select>
                 </div>
               </div>
@@ -40,30 +40,32 @@
                         <!-- aura draw -->
                         <div class="col-md-5">
                             <!-- <AuraInteractive  grade=0 background_img_name="aura-sectors.png" /> -->
-                            <AuraInteractive  grade=0 background_img_name="aura-full.png" />
+                            <!-- <h2>Аураграмма интерактивная</h2>
+                            <div id="aura-interactive" />
+                            <AuraInteractive  grade=0 background_img_name="aura-full.png" /> -->
+                            <!-- <AuraInteractive k_width=300 k_height=364 grade=0 background_img_name="aura-full.png" /> -->
                         </div>
                         <!-- chanel block -->
                           <div class="col-md-2">
                              <div class="row">
-                               <div class="col">
+                               <div class="col-md-6">
                                  <!-- first stolbik -->
-                                 <ul>
-                                   <li v-for="(item,index) in point_items" :key="index">
-                                      <span v-if="index < 24">
-                                        <span v-bind:style="getSignalColor(index)">{{item.id}}=N </span>
-                                      </span>
-                                   </li>
-                                 </ul>
+                                 <div class="text-left" > 
+                                    <p v-if="index < 4" v-for="(item,index) in point_items" :key="index"> 
+                                      <span v-bind:style="getSignalColor(index)">{{item.id}}=N</span>
+                                    </p>                               
+                                 </div>
+                                  
+                                 
                                </div>
-                               <div class="col">
+                               <div class="col-md-6">
                                  <!-- second stolbik -->
-                                  <ul>
-                                   <li v-for="(item,index) in point_items" :key="index">
-                                      <span v-if="index > 24">
-                                        <span v-bind:style="getSignalColor(index)">{{item.id}}=N </span>
-                                      </span>
-                                   </li>
-                                 </ul>
+                                  <div class="text-left">
+                                    <p v-if="index > 4" v-for="(item,index) in point_items" :key="index">                                     
+                                          <span v-bind:style="getSignalColor(index)">{{item.id}}=N</span>
+                                          <!-- <span >{{item.id}}=N </span> -->                                     
+                                    </p>
+                                 </div>
                                </div>
                              </div>
                           </div>
@@ -91,18 +93,18 @@
   <!-- organ description -->
   <div class="row">
      <div class="col-md-4">
-       <ul>
-         <li v-for="(item,index) in point_items" :key="index">
-          <span v-if="index < 23"> <span>{{point.id}}.</span> <span>{{point.title}}</span></span>
-         </li>
-       </ul>
+       
+         <p v-if="index < 4" class="list-group-item text-left" v-for="(item,index) in point_items" :key="index"  >
+            <span style="text-align:left">{{item.id}}.</span> <span>{{item.title}}</span>
+         </p>
+       
      </div>
      <div class="col-md-4">
-        <ul>
-         <li v-for="(item,index) in point_items" :key="index">
-          <span v-if="index > 23"> <span>{{point.id}}.</span> <span>{{point.title}}</span></span>
-         </li>
-       </ul>
+        
+         <p v-if="index > 4" class="list-group-item text-left" v-for="(item,index) in point_items" :key="index">
+          <span>{{item.id}}.</span> <span>{{item.title}}</span>
+        </p>
+      
      </div>
      <div class="col-md-4"></div>
   </div>
@@ -124,8 +126,7 @@
   </div>
   <br>
    <div class="row">
-    <h2>Аурограмма интерактивная</h2>
-    <div id="aura-interactive" />
+
     <center>
 
   </center>
@@ -135,6 +136,9 @@
     <!-- <ul v-for="(item,index) in point_items" :key="index">
       <label>{{index}}.</label><li>{{item.title}}</li>
     </ul> -->
+      <!-- <h2>Аураграмма интерактивная</h2>
+      <div id="aura-interactive" />
+      <AuraInteractive k_width=300 k_height=364 grade=0 background_img_name="aura-full.png" /> -->
   </div>
  
 </section>
@@ -142,6 +146,7 @@
 </template>
 
 <script>
+// import Vue from "vue";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import AuraInteractive from '../components/AuraInteractive.vue'
@@ -155,14 +160,20 @@ export default {
   components: {
     AuraInteractive
   },
+  beforeCreate() {
+   
+  },
+  beforeMount() {
+    this.point_items = this.getPointItems(); 
+  },
   mounted() {
-    this.point_items = this.getPointItems();
+    
   },
   created() {
     this.$on('auraSectorClicked',function(data){        
         this.active_point_id=data.id;
         this.active_point=this.getActivePointItem(this.active_point_id);
-        console.log("ON this.active_point=",JSON.stringify(this.active_point))
+        console.log("ON this.active_point="+data.id,JSON.stringify(this.active_point))
         //alert('data.id='+data.id+' desc='+JSON.stringify(this.active_point.desc))
     })
   },
@@ -177,17 +188,21 @@ export default {
         'blue','aqua','purple','turquoise','green','yellow','orange','red'
       ], //--clRed, clWebOrange, clWebGold, clGreen, clWebDodgerBlue, clBlue: 100 ->0
       seance_1_items:[
+        {id:0,title:'Выберите сеанс тестирования',value:0},
         {id:1,title:'02.02.2018 - 10:00',value:100},
         {id:2,title:'03.02.2018 - 11:00',value:80},
         {id:3,title:'04.02.2018 - 12:00',value:70},
         {id:4,title:'05.02.2018 - 13:00',value:10}
       ],
       seance_2_items:[
+        {id:0,title:'Выберите сеанс тестирования',value:0},
         {id:1,title:'02.02.2018 - 10:00',value:100},
         {id:2,title:'03.02.2018 - 11:00',value:80},
         {id:3,title:'04.02.2018 - 12:00',value:70},
         {id:4,title:'05.02.2018 - 13:00',value:10}
       ],
+      seance_1_selected:0,
+      seance_2_selected:0,
       isSeanceCompare:false
     };
   },
@@ -203,6 +218,7 @@ export default {
             "Головокружение",
             "Нарушение функций органов чувств"
           ],
+          color_index:1,
           grade: 0,
           video_url: ""
         },
@@ -216,6 +232,7 @@ export default {
             "Нарушение функций эндокринных органов",
             "Гипертензия"
           ],
+          color_index:2,
           grade: 0,
           video_url: ""
         },
@@ -229,6 +246,7 @@ export default {
             "снижение слуха, шум в ушах",
             "повышенная чувствительность к звукам, нарушение координаций движений"
           ],
+          color_index:2,
           grade: 0,
           video_url: ""
         },
@@ -241,6 +259,7 @@ export default {
             "Заложенность носа и изменение голоса, слезотечение",
             "Боли в области придаточных пазух, острого или ноющего характера"
           ],
+          color_index:4,
           grade: 0,
           video_url: ""
         },
@@ -253,6 +272,7 @@ export default {
             "Першение в горле",
             "Частые простудные заболевания"
           ],
+          color_index:5,
           grade: 0,
           video_url: ""
         },
@@ -265,6 +285,7 @@ export default {
             "Сопровождает любой воспалительный процесс",
             "Характеризует степень интоксикации организма"
           ],
+          color_index:5,
           grade: 0,
           video_url: ""
         },
@@ -277,6 +298,7 @@ export default {
             "Изжога",
             "Боли за грудиной"
           ],
+          color_index:1,
           grade: 0,
           video_url: ""
         },
@@ -289,6 +311,7 @@ export default {
             "Сопровождает любой воспалительный процесс в грудной клетке",
             "Характеризует степень интоксикации организма"
           ],
+          color_index:2,
           grade: 0,
           video_url: ""
         },
@@ -306,15 +329,26 @@ export default {
             "исхудание",
             "повышение артериального давления и частоты сердечного сокращения, экзофтальм"
           ],
+          color_index:1,
           grade: 0,
           video_url: ""
         }
       ];
       return items;
     },
+    changeSeance(index) {
+      if (index == 1) {
+        console.info(this.seance_1_selected)
+      }
+      if (index == 2) {
+        console.info(this.seance_2_selected)
+      }
+    },
     getSignalColor(index) {
+      let ind = this.point_items[index].color_index
+      let color_name = this.signalColors[ind]
       return {
-        color:Vue.getRandom(0,7)
+        color:color_name//'red'//Vue.getRandom(0,7)
       }
     },
     clickAuraSector(id) {
